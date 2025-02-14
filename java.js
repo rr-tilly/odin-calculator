@@ -35,6 +35,7 @@ function operate(array) {
         case "÷":
             result = divide(a, b);
             break;
+
     }
 
     updateResult(result);
@@ -82,9 +83,9 @@ function buttonPushed(id) {
                 break;
             };
 
-
             if (array.length == 3) {
-                operate(array);
+                const result = operate(array);
+                updateDisplay(result + " " + char + " ");
 
             }
             else { updateDisplay(getDisplayText() + " " + char + " ") };
@@ -105,7 +106,7 @@ function convertDisplaytoArr(expression) {
 
 function updateResult(result) {
     resultDisplay = document.querySelector(".result");
-    resultDisplay.textContent = result;
+    resultDisplay.textContent = Math.round(result * 100) / 100;
 }
 
 function getDisplayText() {
