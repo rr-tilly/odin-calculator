@@ -11,20 +11,14 @@ function divide(a, b) {
     return a / b
 }
 
-function operate(expression) {
-    console.log(expression);
-    console.log(typeof expression);
-
-    const regexp = /(\d+|[a-z]+)/g;
-
-    const array = expression.split(" ");
-    console.table(array);
+function operate(array) {
 
     const operator = array[1];
-    console.log(operator);
+    console.log(array);
 
     const a = Number(array[0]);
     const b = Number(array[2]);
+
 
     switch (operator) {
         case "+":
@@ -45,51 +39,70 @@ function operate(expression) {
 
 const allKeys = document.querySelectorAll(".keys");
 allKeys.forEach(element => {
-    element.addEventListener("click", element => updateDisplay(element.target.id))
+    element.addEventListener("click", element => buttonPushed(element.target.id))
 });
 
-function updateDisplay(id) {
-    const display = document.querySelector(".operation");
+function buttonPushed(id) {
+
     const char = document.querySelector(`#${id}`).textContent;
     switch (id) {
         case "c":
-            display.textContent = "";
-            const resultDisplay = document.querySelector(".result");
-            resultDisplay.textContent = "";
+            updateDisplay("");
+            updateResult("");
             break;
+
         case "backspace":
-            const textDisplay = display.textContent;
-            const deleteChar = textDisplay.charAt(textDisplay.length - 1);
-
-            console.log(deleteChar);
-            console.log(typeof deleteChar);
-
+            const deleteChar = getDisplayText().charAt(getDisplayText().length - 1);
             if (deleteChar === " ") {
-                display.textContent = textDisplay.substring(0, textDisplay.length - 3);
+                updateDisplay("delete operand");
             } else {
-                display.textContent = textDisplay.substring(0, textDisplay.length - 1);
+                updateDisplay("delete number");
             }
+            break;
 
-            break;
         case "equals":
-            operate(display.textContent);
+            operate(convertDisplaytoArr(getDisplayText()));
             break;
+
         case "plus":
         case "minus":
         case "multiply":
         case "divide":
-            display.textContent = display.textContent + " " + char + " ";
+            const array = convertDisplaytoArr(getDisplayText());
+            if (array.length == 3) {
+                array.push(char);
+                operate(array);
+            }
+            else { updateDisplay(getDisplayText() + " " + char + " ") }
+
             break;
+
         default:
             console.log(char);
-            display.textContent = display.textContent + char;
+            updateDisplay(getDisplayText() + char);
             break;
     }
 }
 
+function convertDisplaytoArr(expression) {
+    const array = expression.split(" ");
+    console.table(array);
+    return array;
+}
 
 function updateResult(result) {
     resultDisplay = document.querySelector(".result");
     resultDisplay.textContent = result;
 }
 
+function getDisplayText() {
+    return document.querySelector(".operation").textContent;
+}
+
+function updateDisplay(text) {
+    const display = document.querySelector(".operation");
+
+    if (text === "delete operand") display.textContent = display.textContent.substring(0, display.textContent.length - 3)
+    else if (text === "delete number") display.textContent = display.textContent.substring(0, display.textContentlength - 1)
+    else display.textContent = text;
+}
