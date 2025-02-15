@@ -263,12 +263,13 @@ function percent() {
     } else {
         const result = keepToEightDigits(Number(getResultText()) / 100);
         if (tokens.length === 0) {
+
             array[0] = result;
             updateResult(result);
         }
         else {
             tokens[0] = keepToEightDigits(tokens[0] / 100);
-            upda
+            updateResult(tokens[0]);
             array = tokens;
         };
     };
