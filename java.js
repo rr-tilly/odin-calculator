@@ -54,6 +54,7 @@ function operate() {
         }
     };
 
+
     result = keepToEightDigits(result);
     array = [];
     console.log(array);
@@ -130,7 +131,11 @@ function pushedButton(button) {
         array.push(key);
         return;
     }
-
+    else if (key === "+/-") {
+        console.log(`+/- pressed`);
+        plusOrMinus();
+        updateDisplay(button);
+    }
     else {
         console.log(key);
         array.push(key);
@@ -191,6 +196,7 @@ function updateDisplay(button) {
         return;
     }
     else {
+        console.log(`value of array in updateDisplay is ${array}`)
         display.textContent = getTextfromArray().join(" ");
     };
 }
@@ -221,3 +227,24 @@ function keepToEightDigits(result) {
     else { return result };
 
 }
+
+function plusOrMinus() {
+    const tokens = getTextfromArray();
+    if (tokens.length > 2) {
+        tokens[2] = tokens[2] * -1;
+        array = tokens;
+    } else if (tokens.length === 0) {
+        const result = Number(getResultText()) * -1;
+        array[0] = result;
+        updateResult(result);
+        console.log(Array.isArray(array));
+        console.log(`array is ${array}`);
+    }
+    else {
+        tokens[0] = tokens[0] * -1;
+        array = tokens;
+    };
+    console.log(`new array is ${array}`)
+}
+
+
