@@ -132,8 +132,11 @@ function pushedButton(button) {
         return;
     }
     else if (key === "+/-") {
-        console.log(`+/- pressed`);
         plusOrMinus();
+        updateDisplay(button);
+    }
+    else if (key === "%") {
+        percent();
         updateDisplay(button);
     }
     else {
@@ -148,15 +151,21 @@ function pushedButton(button) {
 
 function decimal() {
     const textArr = getTextfromArray()
-    const currentNum = textArr[textArr.length - 1];
-    if (currentNum.includes(".")) {
-        console.log("decimal disabled");
+    const decButton = document.getElementById("dot");
+
+    if (textArr.length < 1) {
+        array.push("0.");
+        updateDisplay(decButton)
     }
     else {
-        const decButton = document.getElementById("dot");
-        array.push(".");
-        updateDisplay(decButton)
-        console.log("decimal is added");
+        const currentNum = textArr[textArr.length - 1];
+        if (currentNum.includes(".")) {
+            console.log("decimal disabled");
+        }
+        else {
+            array.push(".");
+            updateDisplay(decButton)
+        };
     };
 }
 function getResultText() {
@@ -237,14 +246,28 @@ function plusOrMinus() {
         const result = Number(getResultText()) * -1;
         array[0] = result;
         updateResult(result);
-        console.log(Array.isArray(array));
-        console.log(`array is ${array}`);
     }
     else {
         tokens[0] = tokens[0] * -1;
         array = tokens;
     };
-    console.log(`new array is ${array}`)
 }
+
+function percent() {
+    const tokens = getTextfromArray();
+    if (tokens.length > 2) {
+        tokens[2] = (Math.round((tokens[2] / 100) * 100) / 100).toFixed(2);
+        array = tokens;
+    } else if (tokens.length === 0) {
+        const result = keepToEightDigits(Number(getResultText()) / 100);
+        array[0] = result;
+        updateResult(result);
+    }
+    else {
+        tokens[0] = (Math.round((tokens[0] / 100) * 100) / 100).toFixed(2);
+        array = tokens;
+    };
+}
+
 
 
