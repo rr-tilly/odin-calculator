@@ -235,7 +235,6 @@ function keepToEightDigits(result) {
         return Number(result.toFixed(decimalPlaces));
     }
     else { return result };
-
 }
 
 function plusOrMinus() {
@@ -273,8 +272,103 @@ function percent() {
             array = tokens;
         };
     };
-
 }
 
+//keyboard support here 
+
+document.addEventListener('keydown', (event) => {
+
+    if (event.code === "Digit1") {
+        const btn = document.getElementById("one");
+        pseudoClick(btn);
+
+    }
+    else if (event.code === "Digit2") {
+        const btn = (document.getElementById("two"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Digit3") {
+        const btn = (document.getElementById("three"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Digit4") {
+        const btn = (document.getElementById("four"));
+        pseudoClick(btn);
+    }
+    else if (!event.shiftKey && event.code === "Digit5") {
+        const btn = (document.getElementById("five"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Digit6") {
+        const btn = (document.getElementById("six"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Digit7") {
+        const btn = (document.getElementById("seven"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Digit8") {
+        const btn = (document.getElementById("eight"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Digit9") {
+        const btn = (document.getElementById("nine"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Digit0") {
+        const btn = (document.getElementById("zero"));
+        pseudoClick(btn);
+    }
+    else if (event.shiftKey && event.code === "Equal") {
+        const btn = (document.getElementById("plus"));
+        pseudoClick(btn);
+    }
+    else if (!event.shiftKey && event.code === "Equal" || event.code === "Enter") {
+        const btn = (document.getElementById("equals"));
+        pseudoClick(btn);
+    }
+    else if (event.metaKey && event.code === "KeyC") {
+        const btn = (document.getElementById("c"));
+        pseudoClick(btn);
+    }
+    else if (event.altKey && event.code === "Minus") {
+        const btn = (document.getElementById("plusOrMinus"));
+        pseudoClick(btn);
+    }
+    else if (event.shiftKey && event.code === "Digit5") {
+        const btn = (document.getElementById("percent"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Slash") {
+        const btn = (document.getElementById("divide"));
+        pseudoClick(btn);
+    }
+    else if (!event.altKey && event.code === "Minus") {
+        const btn = (document.getElementById("minus"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Period") {
+        const btn = (document.getElementById("dot"));
+        pseudoClick(btn);
+    }
+    else if (event.code === "Backspace") {
+        const btn = (document.getElementById("c"));
+        pseudoClick(btn);
+    }
+    else if (event.ctrlKey && event.code === "Backspace") {
+        const btn = (document.getElementById("backspace"));
+        pseudoClick(btn);
+    }
+    else {
+        return;
+    };
 
 
+});
+
+function pseudoClick(btn) {
+    let clickEvent = new Event('click');
+    btn.classList.toggle("active")
+    setTimeout(() => btn.classList.toggle("active"), 100);
+    btn.dispatchEvent(clickEvent);
+}

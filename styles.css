@@ -83,3 +83,15 @@ body {
 .buttonContainer {
   padding-bottom: 20px;
 }
+
+/* animation for when user clicks on screen */
+button:active {
+  background-color: rgba(73, 139, 116, 0.611);
+  transition: 0s;
+}
+
+/* animation for when user used keyboard */
+.active {
+  background-color: rgba(73, 139, 116, 0.611);
+  transition: 0s;
+}
