@@ -78,8 +78,6 @@ function pushedButton(button) {
         console.log(array);
     };
 
-
-
     if (key === "=") {
         console.log(key);
         array.push(key);
@@ -136,8 +134,10 @@ function pushedButton(button) {
         updateDisplay(button);
     }
     else if (key === "%") {
+        console.log(`array in pushButton() is: ${array} `)
         percent();
         updateDisplay(button);
+
     }
     else {
         console.log(key);
@@ -155,7 +155,7 @@ function decimal() {
 
     if (textArr.length < 1) {
         array.push("0.");
-        updateDisplay(decButton)
+        updateDisplay("0.");
     }
     else {
         const currentNum = textArr[textArr.length - 1];
@@ -175,7 +175,6 @@ function getResultText() {
 function getDisplayText() {
     return document.querySelector(".operation").textContent;
 }
-
 
 function updateResult(text) {
     const resultDisplay = document.querySelector(".result");
@@ -204,8 +203,10 @@ function updateDisplay(button) {
     else if (button.textContent === "=") {
         return;
     }
+    else if (button === "0.") {
+        display.textContent = button;
+    }
     else {
-        console.log(`value of array in updateDisplay is ${array}`)
         display.textContent = getTextfromArray().join(" ");
     };
 }
@@ -254,19 +255,24 @@ function plusOrMinus() {
 }
 
 function percent() {
+    console.log(`array in percent() is: ${array} `)
     const tokens = getTextfromArray();
     if (tokens.length > 2) {
-        tokens[2] = (Math.round((tokens[2] / 100) * 100) / 100).toFixed(2);
+        tokens[2] = keepToEightDigits(tokens[2] / 100);
         array = tokens;
-    } else if (tokens.length === 0) {
+    } else {
         const result = keepToEightDigits(Number(getResultText()) / 100);
-        array[0] = result;
-        updateResult(result);
-    }
-    else {
-        tokens[0] = (Math.round((tokens[0] / 100) * 100) / 100).toFixed(2);
-        array = tokens;
+        if (tokens.length === 0) {
+            array[0] = result;
+            updateResult(result);
+        }
+        else {
+            tokens[0] = keepToEightDigits(tokens[0] / 100);
+            upda
+            array = tokens;
+        };
     };
+
 }
 
 
