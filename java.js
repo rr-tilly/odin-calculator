@@ -28,8 +28,7 @@ function operate() {
         return;
     }
     else if (inputCount() === 1) {
-        const text = (getDisplayText().split(" "))[0];
-        updateResult(text);
+        updateResult(keepToEightDigits(a));
         return;
     }
     else {
@@ -72,7 +71,7 @@ allKeys.forEach(element => {
 
 function pushedButton(button) {
     const key = button.textContent;
-
+    const tokens = getTextfromArray();
     //for chaining after operate has been called
     if (array.length === 0 && button.classList.contains("operator")) {
         array.push(getResultText());
@@ -86,7 +85,7 @@ function pushedButton(button) {
         decimal(key);
     }
     //when operators are pressed consecutively replaced the last one with the new button pushed
-    else if (!(Number(array[array.length - 1])) && button.classList.contains("operator")) {
+    else if (tokens.length === 2 && button.classList.contains("operator")) {
         array[array.length - 1] = key;
         console.log(array);
         updateDisplay(button);
@@ -254,11 +253,15 @@ function keepToEightDigits(result) {
         return result.toExponential(2)
     }
     else if (result.toString().length >= 9) {
-        const stringResult = result.toString().slice(0, 10);
-        const dotIndex = stringResult.indexOf(".");
-        console.log(dotIndex);
-        const decimalPlaces = 7 - dotIndex;
-        return Number(result.toFixed(decimalPlaces));
+        if (Number(result.charAt[0]) > 0) {
+            const stringResult = result.toString().slice(0, 10);
+            const dotIndex = stringResult.indexOf(".");
+            console.log(dotIndex);
+            const decimalPlaces = 7 - dotIndex;
+            return Number(result.toFixed(decimalPlaces));
+        }
+        else return result.toExponential(2);
+
     }
     else { return result };
 }
@@ -397,6 +400,4 @@ function pseudoClick(btn) {
     btn.classList.toggle("active")
     setTimeout(() => btn.classList.toggle("active"), 100);
     btn.dispatchEvent(clickEvent);
-
 }
-
