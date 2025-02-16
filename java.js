@@ -89,7 +89,6 @@ function pushedButton(button) {
         array[array.length - 1] = key;
         console.log(array);
         updateDisplay(button);
-
     }
     else if (key === ".") {
         decimal(key);
@@ -239,7 +238,7 @@ function updateDisplay(button) {
 
 function getTextfromArray() {
     const expression = array.join("");
-    const tokens = expression.match(/(?<!\d)-?\d*\.?\d+|[()+\-x/]/g);
+    const tokens = expression.match(/-?\d*\.?\d+(?:e[+-]?\d+)?|[()+\-x/]/gi);
     return tokens == null ? [] : tokens;
 }
 
@@ -248,23 +247,24 @@ function inputCount() {
 }
 
 function keepToEightDigits(result) {
-
-    if (result > 99999999) {
-        return result.toExponential(2)
+    if (Math.abs(result) >= 1e8) {
+        return result.toExponential(2);
     }
-    else if (result.toString().length >= 9) {
-        if (Number(result.charAt[0]) > 0) {
-            const stringResult = result.toString().slice(0, 10);
-            const dotIndex = stringResult.indexOf(".");
-            console.log(dotIndex);
-            const decimalPlaces = 7 - dotIndex;
-            return Number(result.toFixed(decimalPlaces));
-        }
-        else return result.toExponential(2);
 
+    let resultStr = result.toString();
+
+
+    if (resultStr.includes("e")) {
+        return result.toExponential(2);
     }
-    else { return result };
+
+    if (resultStr.replace(".", "").length > 8) {
+        return Number(result.toPrecision(8));
+    }
+
+    return result;
 }
+
 
 function plusOrMinus() {
     const tokens = getTextfromArray();
