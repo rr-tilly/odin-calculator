@@ -22,7 +22,7 @@ function operate() {
 
     let result = "";
 
-    console.log("token length is: " + tokens.length);
+
     if (tokens.length === 2) {
         updateResult(a);
         return;
@@ -32,7 +32,7 @@ function operate() {
         return;
     }
     else {
-        console.log("performing operation");
+
         //perform operation
         switch (operator) {
             case "+":
@@ -57,7 +57,7 @@ function operate() {
 
     result = keepToEightDigits(result);
     array = [];
-    console.log(array);
+
     updateResult(result);
 
 }
@@ -75,11 +75,11 @@ function pushedButton(button) {
     //for chaining after operate has been called
     if (array.length === 0 && button.classList.contains("operator")) {
         array.push(getResultText());
-        console.log(array);
+
     };
 
     if (key === "=") {
-        console.log(key);
+
         array.push(key);
         operate();
         decimal(key);
@@ -87,7 +87,7 @@ function pushedButton(button) {
     //when operators are pressed consecutively replaced the last one with the new button pushed
     else if (tokens.length === 2 && button.classList.contains("operator")) {
         array[array.length - 1] = key;
-        console.log(array);
+
         updateDisplay(button);
     }
     else if (key === ".") {
@@ -96,7 +96,7 @@ function pushedButton(button) {
     }
     else if (key === "C") {
         array = [];
-        console.log(array);
+
         updateResult(key);
         updateDisplay(button);
         decimal(key);
@@ -104,32 +104,31 @@ function pushedButton(button) {
     }
     else if (button.id === "backspace") {
         array.splice(array.length - 1, 1);
-        console.log(array);
+
         updateDisplay(button);
     }
     else if (button.classList.contains("operator")) {
 
-        console.log("operator pressed");
 
         if (inputCount() === 3) {
             operate();
             array.push(getResultText());
             array.push(button.textContent);
-            console.log(array);
+
             updateDisplay(button);
 
         }
         else {
-            console.log(key);
+
             array.push(key);
-            console.log(array);
+
             updateDisplay(button);
         };
 
         decimal(key);
     }
     else if (key === ".") {
-        console.log("decimal logged")
+
         updateDisplay(button);
         array.push(key);
         return;
@@ -139,15 +138,12 @@ function pushedButton(button) {
         updateDisplay(button);
     }
     else if (key === "%") {
-        console.log(`array in pushButton() is: ${array} `)
         percent();
         updateDisplay(button);
 
     }
     else {
-        console.log(key);
         array.push(key);
-        console.log(array);
         updateDisplay(button);
     };
 
@@ -208,8 +204,7 @@ function updateResult(text) {
         return;
     }
     else {
-        console.log("updateResult called");
-        console.log(text);
+
         resultDisplay.textContent = text;
     }
 
@@ -283,7 +278,7 @@ function plusOrMinus() {
 }
 
 function percent() {
-    console.log(`array in percent() is: ${array} `)
+
     const tokens = getTextfromArray();
     if (tokens.length > 2) {
         tokens[2] = keepToEightDigits(tokens[2] / 100);
@@ -395,7 +390,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 function pseudoClick(btn) {
-    if (btn === document.getElementById("dot")) console.log("button pressed");
+
     let clickEvent = new Event('click');
     btn.classList.toggle("active")
     setTimeout(() => btn.classList.toggle("active"), 100);

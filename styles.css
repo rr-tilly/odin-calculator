@@ -19,7 +19,7 @@ body {
     rgba(201, 221, 148, 1) 60%,
     rgba(246, 238, 171, 1) 93%
   );
-  /* box-shadow: -10px 10px 10px rgba(201, 209, 211, 0.282); */
+
   width: 300px;
   height: 550px;
   border: 1px solid rgba(17, 167, 152, 0.876);
@@ -34,7 +34,6 @@ body {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
-  /* border: 1px solid red; */
   height: 180px;
   width: 250px;
   text-align: right;
@@ -64,7 +63,6 @@ body {
 .row {
   display: flex;
   width: 250px;
-  /* border: 1px solid red; */
   justify-content: space-between;
 }
 
@@ -92,6 +90,12 @@ button:active {
 
 /* animation for when user used keyboard */
 .active {
+  background-color: rgba(73, 139, 116, 0.611);
+  transition: 0s;
+}
+
+/* for decimal button if decimal is disabled */
+.disabled {
   background-color: rgba(73, 139, 116, 0.611);
   transition: 0s;
 }
