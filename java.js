@@ -82,6 +82,7 @@ function pushedButton(button) {
         console.log(key);
         array.push(key);
         operate();
+        decimal(button);
     }
     //when operators are pressed consecutively replaced the last one with the new button pushed
     else if (!(Number(array[array.length - 1])) && button.classList.contains("operator")) {
@@ -99,6 +100,8 @@ function pushedButton(button) {
         console.log(array);
         updateResult(key);
         updateDisplay(button);
+        decimal(button);
+
     }
     else if (button.id === "backspace") {
         array.splice(array.length - 1, 1);
@@ -106,8 +109,9 @@ function pushedButton(button) {
         updateDisplay(button);
     }
     else if (button.classList.contains("operator")) {
-        const dotButton = document.querySelector("#dot")
-        console.log(dotButton);
+
+        console.log("operator pressed");
+
         if (inputCount() === 3) {
             operate();
             array.push(getResultText());
@@ -122,6 +126,8 @@ function pushedButton(button) {
             console.log(array);
             updateDisplay(button);
         };
+
+        decimal();
     }
     else if (key === ".") {
         console.log("decimal logged")
@@ -149,25 +155,42 @@ function pushedButton(button) {
 
 }
 
-function decimal() {
-    const textArr = getTextfromArray()
-    const decButton = document.getElementById("dot");
+function decimal(btnKey) {
 
-    if (textArr.length < 1) {
-        array.push("0.");
-        updateDisplay("0.");
+    if (btnKey === "C" || btnKey === "=") {
+        dot.classList.remove("disabled");
     }
     else {
-        const currentNum = textArr[textArr.length - 1];
-        if (currentNum.includes(".")) {
-            console.log("decimal disabled");
+        console.log("decimal called");
+        const tokens = getTextfromArray()
+        const dot = document.getElementById("dot");
+
+        if (tokens.length === 0) {
+            array.push("0.");
+            updateDisplay("0.");
+        }
+        else if (tokens.length === 1) {
+            dot.classList.add("disabled");
+            if (!tokens[0].includes(".")) {
+                dot.classList.add("disabled");
+                array.push(".");
+                updateDisplay(dot);
+            };
+        }
+        else if (tokens.length === 2) {
+            dot.classList.remove("disabled");
         }
         else {
-            array.push(".");
-            updateDisplay(decButton)
+            dot.classList.add("disabled");
+            if (!tokens[2].includes(".")) {
+                dot.classList.add("disabled");
+                array.push(".");
+                updateDisplay(dot);
+            };
         };
-    };
+    }
 }
+
 function getResultText() {
     return document.querySelector(".result").textContent;
 }
@@ -213,7 +236,6 @@ function updateDisplay(button) {
 
 function getTextfromArray() {
     const expression = array.join("");
-    console.log(expression);
     const tokens = expression.match(/(?<!\d)-?\d*\.?\d+|[()+\-x/]/g);
     return tokens == null ? [] : tokens;
 }
@@ -275,7 +297,6 @@ function percent() {
 }
 
 //keyboard support here 
-
 document.addEventListener('keydown', (event) => {
 
     if (event.code === "Digit1") {
@@ -367,8 +388,11 @@ document.addEventListener('keydown', (event) => {
 });
 
 function pseudoClick(btn) {
+    if (btn === document.getElementById("dot")) console.log("button pressed");
     let clickEvent = new Event('click');
     btn.classList.toggle("active")
     setTimeout(() => btn.classList.toggle("active"), 100);
     btn.dispatchEvent(clickEvent);
+
 }
+
