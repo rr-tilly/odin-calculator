@@ -271,14 +271,14 @@ function plusOrMinus() {
     if (tokens.length > 2) {
         tokens[2] = tokens[2] * -1;
         array = tokens;
-    } else if (tokens.length === 0) {
-        const result = Number(getResultText()) * -1;
-        array[0] = result;
+    } else if (tokens.length === 1) {
+        tokens[0] = tokens[0] * -1;
+        array = tokens;
+        const result = tokens[0];
         updateResult(result);
     }
     else {
-        tokens[0] = tokens[0] * -1;
-        array = tokens;
+        return;
     };
 }
 
