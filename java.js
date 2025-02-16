@@ -22,8 +22,9 @@ function operate() {
 
     let result = "";
 
-    if (inputCount() === 2) {
-        console.log("need operands or operator")
+    console.log("token length is: " + tokens.length);
+    if (tokens.length === 2) {
+        updateResult(a);
         return;
     }
     else if (inputCount() === 1) {
@@ -82,7 +83,7 @@ function pushedButton(button) {
         console.log(key);
         array.push(key);
         operate();
-        decimal(button);
+        decimal(key);
     }
     //when operators are pressed consecutively replaced the last one with the new button pushed
     else if (!(Number(array[array.length - 1])) && button.classList.contains("operator")) {
@@ -92,7 +93,7 @@ function pushedButton(button) {
 
     }
     else if (key === ".") {
-        decimal();
+        decimal(key);
         return
     }
     else if (key === "C") {
@@ -100,7 +101,7 @@ function pushedButton(button) {
         console.log(array);
         updateResult(key);
         updateDisplay(button);
-        decimal(button);
+        decimal(key);
 
     }
     else if (button.id === "backspace") {
@@ -127,7 +128,7 @@ function pushedButton(button) {
             updateDisplay(button);
         };
 
-        decimal();
+        decimal(key);
     }
     else if (key === ".") {
         console.log("decimal logged")
@@ -161,13 +162,15 @@ function decimal(btnKey) {
         dot.classList.remove("disabled");
     }
     else {
-        console.log("decimal called");
+
         const tokens = getTextfromArray()
         const dot = document.getElementById("dot");
 
         if (tokens.length === 0) {
-            array.push("0.");
-            updateDisplay("0.");
+            if (getDisplayText() === "") {
+                array.push("0.");
+                updateDisplay("0.");
+            };
         }
         else if (tokens.length === 1) {
             dot.classList.add("disabled");
@@ -208,6 +211,7 @@ function updateResult(text) {
     }
     else {
         console.log("updateResult called");
+        console.log(text);
         resultDisplay.textContent = text;
     }
 
