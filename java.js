@@ -233,8 +233,23 @@ function updateDisplay(button) {
 
 function getTextfromArray() {
     const expression = array.join("");
-    const tokens = expression.match(/-?\d*\.?\d+(?:e[+-]?\d+)?|[()+\-x/]/gi);
-    return tokens == null ? [] : tokens;
+    console.log("Expression:", expression);
+
+    let tokens = expression.match(/\d*\.?\d+(?:e[+-]?\d+)?|[()+\-x/]/gi) || [];
+
+
+    tokens = tokens.reduce((acc, token, index) => {
+        if (token === "-" && (index === 0 || "+-x/(".includes(tokens[index - 1]))) {
+            acc.push("-" + tokens[index + 1]);
+            tokens.splice(index + 1, 1);
+        } else {
+            acc.push(token);
+        }
+        return acc;
+    }, []);
+
+    console.log("Tokens:", tokens);
+    return tokens;
 }
 
 function inputCount() {
@@ -396,3 +411,7 @@ function pseudoClick(btn) {
     setTimeout(() => btn.classList.toggle("active"), 100);
     btn.dispatchEvent(clickEvent);
 }
+
+array = [10, "-", 7];
+console.log(operate());
+
