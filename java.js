@@ -80,7 +80,6 @@ function pushedButton(button) {
 
     if (key === "=") {
 
-        array.push(key);
         operate();
         enableDecimal();
     }
@@ -342,7 +341,7 @@ document.addEventListener('keydown', (event) => {
         const btn = (document.getElementById("seven"));
         pseudoClick(btn);
     }
-    else if (event.code === "Digit8") {
+    else if (!event.shiftKey && event.code === "Digit8") {
         const btn = (document.getElementById("eight"));
         pseudoClick(btn);
     }
@@ -356,6 +355,10 @@ document.addEventListener('keydown', (event) => {
     }
     else if (event.shiftKey && event.code === "Equal") {
         const btn = (document.getElementById("plus"));
+        pseudoClick(btn);
+    }
+    else if (event.shiftKey && event.code === "Digit8") {
+        const btn = (document.getElementById("multiply"));
         pseudoClick(btn);
     }
     else if (!event.shiftKey && event.code === "Equal" || event.code === "Enter") {
@@ -401,6 +404,7 @@ document.addEventListener('keydown', (event) => {
 
 });
 
+//animates button when keyboard is pressed
 function pseudoClick(btn) {
 
     let clickEvent = new Event('click');
