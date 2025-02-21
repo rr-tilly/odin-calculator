@@ -82,7 +82,7 @@ function pushedButton(button) {
 
         array.push(key);
         operate();
-        decimal(key);
+        enableDecimal();
     }
     //when operators are pressed consecutively replaced the last one with the new button pushed
     else if (tokens.length === 2 && button.classList.contains("operator")) {
@@ -91,7 +91,7 @@ function pushedButton(button) {
         updateDisplay(button);
     }
     else if (key === ".") {
-        decimal(key);
+        decimal();
         return
     }
     else if (key === "C") {
@@ -99,7 +99,7 @@ function pushedButton(button) {
 
         updateResult(key);
         updateDisplay(button);
-        decimal(key);
+        enableDecimal();
 
     }
     else if (button.id === "backspace") {
@@ -125,7 +125,7 @@ function pushedButton(button) {
             updateDisplay(button);
         };
 
-        decimal(key);
+        enableDecimal();
     }
     else if (key === ".") {
 
@@ -146,46 +146,43 @@ function pushedButton(button) {
         array.push(key);
         updateDisplay(button);
     };
-
-
 }
 
-function decimal(btnKey) {
+function enableDecimal() {
+    const dot = document.querySelector("#dot");
+    dot.classList.remove("disabled")
+}
 
-    if (btnKey === "C" || btnKey === "=") {
-        dot.classList.remove("disabled");
+function decimal() {
+    const tokens = array.join("").split(/[\+\-\*\/]/);
+
+    const dot = document.querySelector("#dot");
+
+    if ((tokens.length === 1 && tokens[0].includes(".") == false)
+        || (tokens.length === 2 && tokens[1].includes(".") == false)) {
+
+        // If the first number starts with ".", push "0."
+        if (tokens.length === 1 && tokens[0] === "") {
+            array.push("0.");
+            updateDisplay("0.");
+        }
+        // If the second number starts with ".", push "0."
+        else if (tokens.length === 2 && tokens[1] === "") {
+            array.push("0.");
+            updateDisplay("0.");
+        }
+        // Otherwise, just push "."
+        else {
+            array.push(".");
+            updateDisplay(dot);
+        };
+
+        dot.classList.add("disabled");
     }
     else {
-
-        const tokens = getTextfromArray()
-        const dot = document.getElementById("dot");
-
-        if (tokens.length === 0) {
-            if (getDisplayText() === "") {
-                array.push("0.");
-                updateDisplay("0.");
-            };
-        }
-        else if (tokens.length === 1) {
-            dot.classList.add("disabled");
-            if (!tokens[0].includes(".")) {
-                dot.classList.add("disabled");
-                array.push(".");
-                updateDisplay(dot);
-            };
-        }
-        else if (tokens.length === 2) {
-            dot.classList.remove("disabled");
-        }
-        else {
-            dot.classList.add("disabled");
-            if (!tokens[2].includes(".")) {
-                dot.classList.add("disabled");
-                array.push(".");
-                updateDisplay(dot);
-            };
-        };
-    }
+        dot.classList.add("disabled");
+        return;
+    };
 }
 
 function getResultText() {
@@ -224,7 +221,7 @@ function updateDisplay(button) {
         return;
     }
     else if (button === "0.") {
-        display.textContent = button;
+        display.textContent = display.textContent + button;
     }
     else {
         display.textContent = getTextfromArray().join(" ");
@@ -411,7 +408,3 @@ function pseudoClick(btn) {
     setTimeout(() => btn.classList.toggle("active"), 100);
     btn.dispatchEvent(clickEvent);
 }
-
-array = [10, "-", 7];
-console.log(operate());
-
